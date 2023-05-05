@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Action, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCitiesByName } from '../../common/api';
 import { createSelector } from '../../common/utils';
 
@@ -35,6 +35,11 @@ const citiesSlice = createSlice({
 
       return state;
     },
+    clearSearchResults(state: Cities, action: Action) {
+      state.searchResults = [];
+
+      return state;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -55,5 +60,5 @@ const citiesSlice = createSlice({
 });
 
 export const getCities = createSelector('cities');
-export const { addCity } = citiesSlice.actions;
+export const { addCity, clearSearchResults } = citiesSlice.actions;
 export default citiesSlice.reducer;

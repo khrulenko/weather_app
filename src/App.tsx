@@ -1,5 +1,7 @@
+import AppRoutes from './routing/Routes';
+
 const App = () => {
-  return <>Here will be a weather app</>;
+  return <AppRoutes />;
 };
 
 export default App;
