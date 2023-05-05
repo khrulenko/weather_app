@@ -1,40 +1,67 @@
-import { useDispatch } from 'react-redux';
-import { Paper, styled, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { Paper, styled, Typography, PaperProps, Stack } from '@mui/material';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { AppDispatch } from '../../../../common/types';
-import { addCity, CityData } from '../../../../redux/slices/citiesSlice';
+import {
+  addCity,
+  CityData,
+  getCities,
+} from '../../../../redux/slices/citiesSlice';
 import { createItemWrapperStyles } from './styles';
 
 interface SearchResultItemProps {
   city: CityData;
 }
 
+export type ItemWrapperProps = {
+  isAdded: boolean;
+} & PaperProps;
+
+const getDataRow = (fieldName: string, value: string) => (
+  <>
+    <b>{fieldName}: </b>
+    {value}
+  </>
+);
+
 const ItemWrapper = styled(Paper)(createItemWrapperStyles);
 
 const SearchResultItem = ({ city }: SearchResultItemProps) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { items } = useSelector(getCities);
+
+  const isAdded = items.some(
+    (item) => item.lon === city.lon && item.lat === city.lat
+  );
+
   const onAddCityHandler = () => {
+    if (isAdded) return;
+
     dispatch(addCity(city));
   };
 
   const { name, country, state } = city;
+  const statusIcon = isAdded ? (
+    <CheckCircleRoundedIcon />
+  ) : (
+    <AddCircleOutlineRoundedIcon />
+  );
 
   return (
-    <ItemWrapper onClick={onAddCityHandler}>
+    <ItemWrapper onClick={onAddCityHandler} isAdded={isAdded}>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography>{getDataRow('Country', country)}</Typography>
+
+        {statusIcon}
+      </Stack>
+
       <Typography>
-        <b>Country: </b>
-        {country}
+        {getDataRow('City', name)}
+
         <br />
 
-        <b>City: </b>
-        {name}
-        <br />
-
-        {state && (
-          <>
-            <b>Region: </b>
-            {state}
-          </>
-        )}
+        {state && getDataRow('Region', state)}
       </Typography>
     </ItemWrapper>
   );

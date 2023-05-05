@@ -1,16 +1,17 @@
-import { PaperProps } from '@mui/material';
+import { ItemWrapperProps } from '.';
 import { StyleFunction } from '../../../../common/types';
 
-const createItemWrapperStyles: StyleFunction<PaperProps> = ({
+const createItemWrapperStyles: StyleFunction<ItemWrapperProps> = ({
   theme: { spacing, palette },
+  isAdded,
 }) => ({
   minHeight: spacing(8),
   padding: spacing(2),
 
   borderRadius: spacing(3),
-  cursor: 'pointer',
+  cursor: isAdded ? 'not-allowed' : 'pointer',
 
-  '&:hover': {
+  '&:hover': !isAdded && {
     backgroundColor: palette.secondary.dark,
     color: palette.primary.light,
   },
