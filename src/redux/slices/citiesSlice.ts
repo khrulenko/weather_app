@@ -1,8 +1,9 @@
-import { Action, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCitiesByName } from '../../common/api';
+import { StringObject } from '../../common/types';
 import { createSelector } from '../../common/utils';
 
-interface CityData {
+export interface CityData {
   name: string;
   country: string;
   lat: number;
@@ -10,7 +11,7 @@ interface CityData {
   state?: string;
 }
 
-type ApiCityData = CityData & { local_names: { [key: string]: string } };
+type ApiCityData = CityData & { local_names: StringObject };
 type ApiCitiesData = ApiCityData[];
 type CitiesData = CityData[];
 
@@ -35,7 +36,7 @@ const citiesSlice = createSlice({
 
       return state;
     },
-    clearSearchResults(state: Cities, action: Action) {
+    clearSearchResults(state: Cities) {
       state.searchResults = [];
 
       return state;

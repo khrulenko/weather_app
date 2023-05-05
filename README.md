@@ -15,3 +15,4 @@ Used technologies:
 - Redux
   - toolkit
   - thunk
+- Material UI

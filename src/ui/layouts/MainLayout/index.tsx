@@ -1,13 +1,23 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import SearchBar from '../../components/SearchBar';
+import { Stack, styled } from '@mui/material';
+import SideBar from '../../components/SideBar';
+import { createContentWrapperStyles } from './styles';
+
+const ContentWrapper = styled(Stack)(createContentWrapperStyles);
 
 const MainLayout = () => {
-  return (
-    <div style={{ height: '100%', display: 'flex' }}>
-      <SearchBar />
+  const [isSearchOpened, setIsSearchOpened] = useState<boolean>(true);
+  const toggleMenu = () => setIsSearchOpened((prevState) => !prevState);
 
-      <Outlet />
-    </div>
+  return (
+    <Stack direction="row">
+      <SideBar open={isSearchOpened} toggler={toggleMenu} />
+
+      <ContentWrapper>
+        <Outlet />
+      </ContentWrapper>
+    </Stack>
   );
 };
 

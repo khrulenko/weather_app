@@ -1,5 +1,5 @@
-const WeaterTablePage = () => {
-  return <>WeaterTablePage</>;
+const WeatherTablePage = () => {
+  return <div>WeatherTablePage</div>;
 };
 
-export default WeaterTablePage;
+export default WeatherTablePage;
