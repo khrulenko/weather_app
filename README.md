@@ -11,3 +11,6 @@ Used technologies:
 - React
   - hooks
   - functional components
+- Redux
+  - toolkit
+  - thunk
