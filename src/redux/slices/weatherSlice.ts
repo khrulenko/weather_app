@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchWeatherByCoords } from '../../common/api';
+import {
+  getWeatherByCoordsThunk,
+  refreshWeatherByCoordsThunk,
+} from '../../common/api';
 import { Coords } from '../../common/types';
 import { createSelector } from '../../common/utils';
 import { CityData } from './citiesSearchSlice';
@@ -24,6 +27,22 @@ export interface WeatherCard {
 
 export type Weather = { weatherCards: WeatherCard[]; error: boolean };
 
+const extractWeatherData = (apiWeatherData: WeatherCard): WeatherCard => {
+  const {
+    city,
+    weather,
+    main: { temp },
+    wind: { speed },
+  } = apiWeatherData;
+
+  return {
+    city,
+    weather,
+    main: { temp },
+    wind: { speed },
+  };
+};
+
 const initialState: Weather = { weatherCards: [], error: false };
 
 const weatherSlice = createSlice({
@@ -41,24 +60,30 @@ const weatherSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(
-        fetchWeatherByCoords.fulfilled,
+        getWeatherByCoordsThunk.fulfilled,
         (state: Weather, action: PayloadAction<WeatherCard>) => {
-          const {
-            city,
-            weather,
-            main: { temp },
-            wind: { speed },
-          } = action.payload;
+          const data = extractWeatherData(action.payload);
 
-          state.weatherCards.push({
-            city,
-            weather,
-            main: { temp },
-            wind: { speed },
-          });
+          state.weatherCards.push(data);
         }
       )
-      .addCase(fetchWeatherByCoords.rejected, (state: Weather) => {
+      .addCase(getWeatherByCoordsThunk.rejected, (state: Weather) => {
+        state.error = true;
+      })
+      .addCase(
+        refreshWeatherByCoordsThunk.fulfilled,
+        (state: Weather, action: PayloadAction<WeatherCard>) => {
+          const data = extractWeatherData(action.payload);
+
+          const cardIndex = state.weatherCards.findIndex(
+            ({ city }) =>
+              city.lat === data.city.lat && city.lon === data.city.lon
+          );
+
+          state.weatherCards[cardIndex] = data;
+        }
+      )
+      .addCase(refreshWeatherByCoordsThunk.rejected, (state: Weather) => {
         state.error = true;
       });
   },

@@ -18,27 +18,38 @@ const fetchCitiesByName = createAsyncThunk(
   }
 );
 
-const fetchWeatherByCoords = createAsyncThunk(
-  'weather/fetchWeather',
-  async (city: CityData) => {
-    const { lat, lon } = city;
+const fetchWeatherByCoords = async (city: CityData) => {
+  const { lat, lon } = city;
 
-    try {
-      const weatherResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHERMAP_API_KEY}`
-      );
+  try {
+    const weatherResponse = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHERMAP_API_KEY}`
+    );
 
-      if (!weatherResponse.ok) {
-        throw new Error();
-      }
-
-      const weaterData = await weatherResponse.json();
-
-      return { ...weaterData, city };
-    } catch {
+    if (!weatherResponse.ok) {
       throw new Error();
     }
+
+    const weaterData = await weatherResponse.json();
+
+    return { ...weaterData, city };
+  } catch {
+    throw new Error();
   }
+};
+
+const getWeatherByCoordsThunk = createAsyncThunk(
+  'weather/fetchWeather',
+  fetchWeatherByCoords
 );
 
-export { fetchCitiesByName, fetchWeatherByCoords };
+const refreshWeatherByCoordsThunk = createAsyncThunk(
+  'weather/refreshWeather',
+  fetchWeatherByCoords
+);
+
+export {
+  fetchCitiesByName,
+  getWeatherByCoordsThunk,
+  refreshWeatherByCoordsThunk,
+};

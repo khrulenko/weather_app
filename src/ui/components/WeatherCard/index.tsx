@@ -15,6 +15,7 @@ import { kelvinToCelsius } from '../../../common/utils';
 import WeatherIcon from '../WeatherIcon';
 import TooltipButton from '../TooltipButton';
 import { AppDispatch } from '../../../common/types';
+import { refreshWeatherByCoordsThunk } from '../../../common/api';
 
 interface CityWeatherCardProps {
   weatherCardData: WeatherCard;
@@ -36,6 +37,10 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
 
   const onDeleteWeatherCard = () => {
     dispatch(deleteWeatherCard({ lon: city.lon, lat: city.lat }));
+  };
+
+  const onRefreshWeatherCard = () => {
+    dispatch(refreshWeatherByCoordsThunk(city));
   };
 
   return (
@@ -64,7 +69,11 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
         </Stack>
 
         <Stack direction="row" justifyContent="flex-end">
-          <TooltipButton title="Refresh" hasAnimation>
+          <TooltipButton
+            title="Refresh"
+            hasAnimation
+            onClick={onRefreshWeatherCard}
+          >
             <SyncOutlinedIcon />
           </TooltipButton>
 

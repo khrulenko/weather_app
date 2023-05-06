@@ -5,7 +5,7 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { AppDispatch } from '../../../../common/types';
 import { CityData } from '../../../../redux/slices/citiesSearchSlice';
 import { createItemWrapperStyles } from './styles';
-import { fetchWeatherByCoords } from '../../../../common/api';
+import { getWeatherByCoordsThunk } from '../../../../common/api';
 import { getWeather } from '../../../../redux/slices/weatherSlice';
 
 interface SearchResultItemProps {
@@ -37,7 +37,7 @@ const SearchResultItem = ({ city }: SearchResultItemProps) => {
   const onAddCityHandler = () => {
     if (isAdded) return;
 
-    dispatch(fetchWeatherByCoords(city));
+    dispatch(getWeatherByCoordsThunk(city));
   };
 
   const statusIcon = isAdded ? (

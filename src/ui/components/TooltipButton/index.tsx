@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Button,
   ButtonProps,
@@ -5,7 +6,6 @@ import {
   TooltipProps,
   styled,
 } from '@mui/material';
-import { useState } from 'react';
 import { AnyFunction } from '../../../common/types';
 import { createTooltipButtonWrapperStyles } from './style';
 
