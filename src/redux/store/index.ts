@@ -1,13 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import citiesReducer, { Cities } from '../slices/citiesSlice';
+import citiesSearchReducer, { Cities } from '../slices/citiesSearchSlice';
+import weatherReducer, { Weather } from '../slices/weatherSlice';
 
 export interface Store {
-  cities: Cities;
+  citiesSearch: Cities;
+  weather: Weather;
 }
 
 // redusers
 export const reducers = {
-  cities: citiesReducer,
+  citiesSearch: citiesSearchReducer,
+  weather: weatherReducer,
 };
 
 // store

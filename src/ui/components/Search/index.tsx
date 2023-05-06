@@ -7,7 +7,7 @@ import { handleChange } from '../../../common/utils';
 import {
   clearSearchResults,
   getCities,
-} from '../../../redux/slices/citiesSlice';
+} from '../../../redux/slices/citiesSearchSlice';
 import SearchResultItem from './SearchResultItem';
 
 const Search = () => {

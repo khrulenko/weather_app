@@ -16,26 +16,19 @@ type ApiCitiesData = ApiCityData[];
 type CitiesData = CityData[];
 
 export type Cities = {
-  items: CitiesData;
   searchResults: CitiesData;
   error: boolean;
 };
 
 const initialState: Cities = {
-  items: [],
   searchResults: [],
   error: false,
 };
 
-const citiesSlice = createSlice({
-  name: 'cities',
+const citiesSearchSlice = createSlice({
+  name: 'citiesSearch',
   initialState,
   reducers: {
-    addCity(state: Cities, action: PayloadAction<CityData>) {
-      state.items.push(action.payload);
-
-      return state;
-    },
     clearSearchResults(state: Cities) {
       state.searchResults = [];
 
@@ -48,9 +41,9 @@ const citiesSlice = createSlice({
         fetchCitiesByName.fulfilled,
         (state: Cities, action: PayloadAction<ApiCitiesData>) => {
           state.searchResults = action.payload.map((city) => {
-            const { local_names, ...props } = city;
+            const { local_names, ...rest } = city;
 
-            return props;
+            return rest;
           });
         }
       )
@@ -60,6 +53,6 @@ const citiesSlice = createSlice({
   },
 });
 
-export const getCities = createSelector('cities');
-export const { addCity, clearSearchResults } = citiesSlice.actions;
-export default citiesSlice.reducer;
+export const getCities = createSelector('citiesSearch');
+export const { clearSearchResults } = citiesSearchSlice.actions;
+export default citiesSearchSlice.reducer;

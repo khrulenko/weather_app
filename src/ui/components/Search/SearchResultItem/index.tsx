@@ -3,12 +3,10 @@ import { Paper, styled, Typography, PaperProps, Stack } from '@mui/material';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { AppDispatch } from '../../../../common/types';
-import {
-  addCity,
-  CityData,
-  getCities,
-} from '../../../../redux/slices/citiesSlice';
+import { CityData } from '../../../../redux/slices/citiesSearchSlice';
 import { createItemWrapperStyles } from './styles';
+import { fetchWeatherByCoords } from '../../../../common/api';
+import { getWeather } from '../../../../redux/slices/weatherSlice';
 
 interface SearchResultItemProps {
   city: CityData;
@@ -29,15 +27,17 @@ const ItemWrapper = styled(Paper)(createItemWrapperStyles);
 
 const SearchResultItem = ({ city }: SearchResultItemProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { items } = useSelector(getCities);
+  const { weatherCards } = useSelector(getWeather);
 
   const { name, country, state, lon, lat } = city;
-  const isAdded = items.some((item) => item.lon === lon && item.lat === lat);
+  const isAdded = weatherCards.some(
+    (card) => card.city.lon === lon && card.city.lat === lat
+  );
 
   const onAddCityHandler = () => {
     if (isAdded) return;
 
-    dispatch(addCity(city));
+    dispatch(fetchWeatherByCoords(city));
   };
 
   const statusIcon = isAdded ? (

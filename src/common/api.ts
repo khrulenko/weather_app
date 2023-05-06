@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { CityData } from '../redux/slices/citiesSearchSlice';
 import { OPENWEATHERMAP_API_KEY } from './constants';
 
 const fetchCitiesByName = createAsyncThunk(
@@ -17,4 +18,27 @@ const fetchCitiesByName = createAsyncThunk(
   }
 );
 
-export { fetchCitiesByName };
+const fetchWeatherByCoords = createAsyncThunk(
+  'weather/fetchWeather',
+  async (city: CityData) => {
+    const { lat, lon } = city;
+
+    try {
+      const weatherResponse = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHERMAP_API_KEY}`
+      );
+
+      if (!weatherResponse.ok) {
+        throw new Error();
+      }
+
+      const weaterData = await weatherResponse.json();
+
+      return { ...weaterData, city };
+    } catch {
+      throw new Error();
+    }
+  }
+);
+
+export { fetchCitiesByName, fetchWeatherByCoords };
