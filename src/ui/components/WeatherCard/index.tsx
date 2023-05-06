@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { Stack, Divider, Paper, styled, Typography } from '@mui/material';
+import { Stack, Paper, styled, Typography } from '@mui/material';
 import DeviceThermostatOutlinedIcon from '@mui/icons-material/DeviceThermostatOutlined';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
@@ -55,8 +55,6 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
           <DeviceThermostatOutlinedIcon />
         </Stack>
       </CardHeader>
-
-      <Divider />
 
       <Stack direction="row" justifyContent="space-between">
         <Stack direction="row" alignItems="center" gap="8px">

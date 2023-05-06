@@ -6,6 +6,7 @@ const createCityWeatherCardWrapperStyles: StyleFunction<PaperProps> = ({
 }) => ({
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'space-between',
   gap: '8px',
 
   width: '100%',
