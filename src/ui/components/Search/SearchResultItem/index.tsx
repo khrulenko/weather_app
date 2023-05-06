@@ -31,9 +31,8 @@ const SearchResultItem = ({ city }: SearchResultItemProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { items } = useSelector(getCities);
 
-  const isAdded = items.some(
-    (item) => item.lon === city.lon && item.lat === city.lat
-  );
+  const { name, country, state, lon, lat } = city;
+  const isAdded = items.some((item) => item.lon === lon && item.lat === lat);
 
   const onAddCityHandler = () => {
     if (isAdded) return;
@@ -41,7 +40,6 @@ const SearchResultItem = ({ city }: SearchResultItemProps) => {
     dispatch(addCity(city));
   };
 
-  const { name, country, state } = city;
   const statusIcon = isAdded ? (
     <CheckCircleRoundedIcon />
   ) : (
