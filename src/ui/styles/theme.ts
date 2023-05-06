@@ -1,5 +1,6 @@
 import { createTheme, ThemeOptions } from '@mui/material';
 import { teal, grey } from '@mui/material/colors';
+import MuiButton from './muiComponents/MuiButton';
 import MuiCssBaseline from './muiComponents/MuiCssBaseline';
 import MuiTextField from './muiComponents/MuiTexfield';
 
@@ -39,6 +40,7 @@ const theme = createTheme({
   components: {
     MuiCssBaseline,
     MuiTextField,
+    MuiButton,
   },
   navBarSizes,
 } as ThemeOptions);

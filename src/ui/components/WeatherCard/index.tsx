@@ -1,9 +1,15 @@
 import { Stack, Divider, Paper, styled, Typography } from '@mui/material';
 import DeviceThermostatOutlinedIcon from '@mui/icons-material/DeviceThermostatOutlined';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
 import { WeatherCard } from '../../../redux/slices/weatherSlice';
-import { createCityWeatherCardWrapperStyles } from './styles';
+import {
+  createCardHeaderStyles,
+  createCityWeatherCardWrapperStyles,
+} from './styles';
 import { kelvinToCelsius } from '../../../common/utils';
 import WeatherIcon from '../WeatherIcon';
+import TooltipButton from '../TooltipButton';
 
 interface CityWeatherCardProps {
   weatherCardData: WeatherCard;
@@ -12,6 +18,7 @@ interface CityWeatherCardProps {
 const CityWeatherCardWrapper = styled(Paper)(
   createCityWeatherCardWrapperStyles
 );
+const CardHeader = styled(Stack)(createCardHeaderStyles);
 
 const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
   const {
@@ -22,7 +29,7 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
 
   return (
     <CityWeatherCardWrapper>
-      <Stack direction="row" justifyContent="space-between" minHeight="48px">
+      <CardHeader>
         <Stack justifyContent="center">
           <Typography fontSize="24px" fontWeight="bold">
             {city.name}
@@ -36,14 +43,26 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
 
           <DeviceThermostatOutlinedIcon />
         </Stack>
-      </Stack>
+      </CardHeader>
 
       <Divider />
 
-      <Stack direction="row" alignItems="center" gap="8px">
-        <WeatherIcon iconId={icon} />
+      <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" alignItems="center" gap="8px">
+          <WeatherIcon iconId={icon} />
 
-        <Typography>{description}</Typography>
+          <Typography>{description}</Typography>
+        </Stack>
+
+        <Stack direction="row" justifyContent="flex-end">
+          <TooltipButton title="Refresh">
+            <SyncOutlinedIcon />
+          </TooltipButton>
+
+          <TooltipButton title="Delete">
+            <HighlightOffOutlinedIcon />
+          </TooltipButton>
+        </Stack>
       </Stack>
     </CityWeatherCardWrapper>
   );
