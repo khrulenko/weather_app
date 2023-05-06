@@ -3,7 +3,7 @@ import { fetchWeatherByCoords } from '../../common/api';
 import { createSelector } from '../../common/utils';
 import { CityData } from './citiesSearchSlice';
 
-interface WeatherCard {
+export interface WeatherCard {
   city: CityData;
   weather: [
     {

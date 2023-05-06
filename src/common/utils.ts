@@ -13,4 +13,9 @@ const handleChange =
     action(value);
   };
 
-export { createSelector, handleChange };
+const kelvinToCelsius = (kelvin: number): number => Math.round(kelvin - 273.15);
+
+const numbersToString = (num1: number, num2: number) =>
+  num1.toString() + num2.toString();
+
+export { createSelector, handleChange, kelvinToCelsius, numbersToString };
