@@ -1,13 +1,19 @@
-import { Button, Tooltip } from '@mui/material';
+import { Button, ButtonProps, Tooltip } from '@mui/material';
 
-interface TooltipButtonProps {
+interface Props {
   title: string;
   children: any;
 }
 
-const TooltipButton = ({ title = '', children }: TooltipButtonProps) => (
+type TooltipButtonProps = Props & ButtonProps;
+
+const TooltipButton = ({
+  title = '',
+  onClick,
+  children,
+}: TooltipButtonProps) => (
   <Tooltip title={title} followCursor placement="top">
-    <Button>{children}</Button>
+    <Button onClick={onClick}>{children}</Button>
   </Tooltip>
 );
 export default TooltipButton;

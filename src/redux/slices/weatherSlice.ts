@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchWeatherByCoords } from '../../common/api';
+import { Coords } from '../../common/types';
 import { createSelector } from '../../common/utils';
 import { CityData } from './citiesSearchSlice';
 
@@ -28,7 +29,15 @@ const initialState: Weather = { weatherCards: [], error: false };
 const weatherSlice = createSlice({
   name: 'weather',
   initialState,
-  reducers: {},
+  reducers: {
+    deleteWeatherCard(state: Weather, action: PayloadAction<Coords>) {
+      const { lon, lat } = action.payload;
+
+      state.weatherCards = state.weatherCards.filter(
+        ({ city }) => city.lat !== lat || city.lon !== lon
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(
@@ -56,5 +65,5 @@ const weatherSlice = createSlice({
 });
 
 export const getWeather = createSelector('weather');
-export const {} = weatherSlice.actions;
+export const { deleteWeatherCard } = weatherSlice.actions;
 export default weatherSlice.reducer;

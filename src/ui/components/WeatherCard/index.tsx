@@ -1,8 +1,12 @@
+import { useDispatch } from 'react-redux';
 import { Stack, Divider, Paper, styled, Typography } from '@mui/material';
 import DeviceThermostatOutlinedIcon from '@mui/icons-material/DeviceThermostatOutlined';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
-import { WeatherCard } from '../../../redux/slices/weatherSlice';
+import {
+  deleteWeatherCard,
+  WeatherCard,
+} from '../../../redux/slices/weatherSlice';
 import {
   createCardHeaderStyles,
   createCityWeatherCardWrapperStyles,
@@ -10,6 +14,7 @@ import {
 import { kelvinToCelsius } from '../../../common/utils';
 import WeatherIcon from '../WeatherIcon';
 import TooltipButton from '../TooltipButton';
+import { AppDispatch } from '../../../common/types';
 
 interface CityWeatherCardProps {
   weatherCardData: WeatherCard;
@@ -21,11 +26,17 @@ const CityWeatherCardWrapper = styled(Paper)(
 const CardHeader = styled(Stack)(createCardHeaderStyles);
 
 const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const {
     city,
     weather: [{ description, icon }],
     main: { temp },
   } = weatherCardData;
+
+  const onDeleteWeatherCard = () => {
+    dispatch(deleteWeatherCard({ lon: city.lon, lat: city.lat }));
+  };
 
   return (
     <CityWeatherCardWrapper>
@@ -59,7 +70,7 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
             <SyncOutlinedIcon />
           </TooltipButton>
 
-          <TooltipButton title="Delete">
+          <TooltipButton title="Delete" onClick={onDeleteWeatherCard}>
             <HighlightOffOutlinedIcon />
           </TooltipButton>
         </Stack>
