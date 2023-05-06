@@ -64,7 +64,7 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
         </Stack>
 
         <Stack direction="row" justifyContent="flex-end">
-          <TooltipButton title="Refresh">
+          <TooltipButton title="Refresh" hasAnimation>
             <SyncOutlinedIcon />
           </TooltipButton>
 
