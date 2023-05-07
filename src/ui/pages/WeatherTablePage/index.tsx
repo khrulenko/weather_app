@@ -5,6 +5,7 @@ import CityWeatherCard from '../../components/WeatherCard';
 import { createWeatherTableWrapperStyles } from './styles';
 import { numbersToString } from '../../../common/utils';
 import ErrorPage from '../ErrorPage';
+import EmptyListAlertPage from '../EmptyListAlertPage';
 
 const WeatherTableWrapper = styled(Stack)(createWeatherTableWrapperStyles);
 
@@ -13,6 +14,10 @@ const WeatherTablePage = () => {
 
   if (error) {
     return <ErrorPage />;
+  }
+
+  if (!weatherCards.length) {
+    return <EmptyListAlertPage />;
   }
 
   return (
