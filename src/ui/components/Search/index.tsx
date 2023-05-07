@@ -9,12 +9,13 @@ import {
   getCities,
 } from '../../../redux/slices/citiesSearchSlice';
 import SearchResultItem from './SearchResultItem';
+import ErrorPage from '../../pages/ErrorPage';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const dispatch = useDispatch<AppDispatch>();
   const citiesData = useSelector(getCities);
-  const { searchResults } = citiesData;
+  const { searchResults, error } = citiesData;
 
   const onSearch = (value: string) => {
     setSearchQuery(value);
@@ -38,14 +39,18 @@ const Search = () => {
         size="small"
       />
 
-      <Stack spacing="8px">
-        {searchResults.map((city) => (
-          <SearchResultItem
-            key={numbersToString(city.lat, city.lon)}
-            city={city}
-          />
-        ))}
-      </Stack>
+      {error ? (
+        <ErrorPage />
+      ) : (
+        <Stack spacing="8px">
+          {searchResults.map((city) => (
+            <SearchResultItem
+              key={numbersToString(city.lat, city.lon)}
+              city={city}
+            />
+          ))}
+        </Stack>
+      )}
     </Stack>
   );
 };

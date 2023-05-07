@@ -4,11 +4,16 @@ import { getWeather } from '../../../redux/slices/weatherSlice';
 import CityWeatherCard from '../../components/WeatherCard';
 import { createWeatherTableWrapperStyles } from './styles';
 import { numbersToString } from '../../../common/utils';
+import ErrorPage from '../ErrorPage';
 
 const WeatherTableWrapper = styled(Stack)(createWeatherTableWrapperStyles);
 
 const WeatherTablePage = () => {
-  const { weatherCards } = useSelector(getWeather);
+  const { weatherCards, error } = useSelector(getWeather);
+
+  if (error) {
+    return <ErrorPage />;
+  }
 
   return (
     <WeatherTableWrapper>

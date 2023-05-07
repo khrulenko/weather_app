@@ -9,6 +9,11 @@ const fetchCitiesByName = createAsyncThunk(
       const cityResponse = await fetch(
         `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${OPENWEATHERMAP_API_KEY}`
       );
+
+      if (!cityResponse.ok) {
+        throw new Error();
+      }
+
       const cityData = await cityResponse.json();
 
       return cityData;
