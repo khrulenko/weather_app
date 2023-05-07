@@ -1,11 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  getTempHourly,
   getWeatherByCoordsThunk,
   refreshWeatherByCoordsThunk,
 } from '../../common/api';
 import { Coords } from '../../common/types';
-import { createSelector } from '../../common/utils';
+import {
+  createSelector,
+  extractWeatherData,
+  findCardIndex,
+} from '../../common/utils';
 import { CityData } from './citiesSearchSlice';
+
+interface HourlyTemp {
+  hourly: { temperature_2m: number[] };
+}
 
 export interface WeatherCard {
   city: CityData;
@@ -28,25 +37,10 @@ export interface WeatherCard {
   wind: {
     speed: number;
   };
+  hourlyTemp?: number[];
 }
 
 export type Weather = { weatherCards: WeatherCard[]; error: boolean };
-
-const extractWeatherData = (apiWeatherData: WeatherCard): WeatherCard => {
-  const {
-    city,
-    weather,
-    main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
-    wind: { speed },
-  } = apiWeatherData;
-
-  return {
-    city,
-    weather,
-    main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
-    wind: { speed },
-  };
-};
 
 const initialState: Weather = { weatherCards: [], error: false };
 
@@ -55,7 +49,7 @@ const weatherSlice = createSlice({
   initialState,
   reducers: {
     deleteWeatherCard(state: Weather, action: PayloadAction<Coords>) {
-      const { lon, lat } = action.payload;
+      const { lat, lon } = action.payload;
 
       state.weatherCards = state.weatherCards.filter(
         ({ city }) => city.lat !== lat || city.lon !== lon
@@ -80,15 +74,40 @@ const weatherSlice = createSlice({
         (state: Weather, action: PayloadAction<WeatherCard>) => {
           const data = extractWeatherData(action.payload);
 
-          const cardIndex = state.weatherCards.findIndex(
-            ({ city }) =>
-              city.lat === data.city.lat && city.lon === data.city.lon
+          const cardIndex = findCardIndex(
+            state.weatherCards,
+            data.city.lat,
+            data.city.lon
           );
 
           state.weatherCards[cardIndex] = data;
         }
       )
       .addCase(refreshWeatherByCoordsThunk.rejected, (state: Weather) => {
+        state.error = true;
+      })
+      .addCase(
+        getTempHourly.fulfilled,
+        (
+          state: Weather,
+          action: PayloadAction<{
+            city: CityData;
+            hourlyTemp: HourlyTemp;
+          }>
+        ) => {
+          const {
+            city: { lat, lon },
+            hourlyTemp: { hourly },
+          } = action.payload;
+
+          const hourlyTemp = hourly.temperature_2m.slice(0, 24);
+
+          const cardIndex = findCardIndex(state.weatherCards, lat, lon);
+
+          state.weatherCards[cardIndex].hourlyTemp = hourlyTemp;
+        }
+      )
+      .addCase(getTempHourly.rejected, (state: Weather) => {
         state.error = true;
       });
   },

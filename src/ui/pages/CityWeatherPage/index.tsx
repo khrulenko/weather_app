@@ -32,10 +32,10 @@ const CityWeatherPage = () => {
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
-  const lon = queryParams.get('lon');
   const lat = queryParams.get('lat');
+  const lon = queryParams.get('lon');
   const weatherData = weatherCards.find(
-    (card) => card.city.lon === Number(lon) && card.city.lat === Number(lat)
+    (card) => card.city.lat === Number(lat) && card.city.lon === Number(lon)
   );
 
   if (!weatherData) {
@@ -114,7 +114,12 @@ const CityWeatherPage = () => {
 
       <DetailsListWrapper>
         {weatherDetailsData.map(({ header, value, icon }) => (
-          <WeatherDetailCard header={header} value={value} icon={icon} />
+          <WeatherDetailCard
+            key={header + value}
+            header={header}
+            value={value}
+            icon={icon}
+          />
         ))}
       </DetailsListWrapper>
     </PageCanvas>

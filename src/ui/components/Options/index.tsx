@@ -20,7 +20,7 @@ const Options = ({ city }: OptionsProps) => {
 
   const onDeleteWeatherCard = () => {
     navigate(URL_WEATHER);
-    dispatch(deleteWeatherCard({ lon: city.lon, lat: city.lat }));
+    dispatch(deleteWeatherCard({ lat: city.lat, lon: city.lon }));
   };
 
   const onRefreshWeatherCard = () => {

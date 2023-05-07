@@ -53,8 +53,32 @@ const refreshWeatherByCoordsThunk = createAsyncThunk(
   fetchWeatherByCoords
 );
 
+const getTempHourly = createAsyncThunk(
+  'weater/getTempHourly',
+  async (city: CityData) => {
+    const { lat, lon } = city;
+
+    try {
+      const tempResponse = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m`
+      );
+
+      if (!tempResponse.ok) {
+        throw new Error();
+      }
+
+      const hourlyTemp = await tempResponse.json();
+
+      return { hourlyTemp, city };
+    } catch {
+      throw new Error();
+    }
+  }
+);
+
 export {
   fetchCitiesByName,
   getWeatherByCoordsThunk,
   refreshWeatherByCoordsThunk,
+  getTempHourly,
 };

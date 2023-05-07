@@ -29,9 +29,9 @@ const SearchResultItem = ({ city }: SearchResultItemProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { weatherCards } = useSelector(getWeather);
 
-  const { name, country, state, lon, lat } = city;
+  const { name, country, state, lat, lon } = city;
   const isAdded = weatherCards.some(
-    (card) => card.city.lon === lon && card.city.lat === lat
+    (card) => card.city.lat === lat && card.city.lon === lon
   );
 
   const onAddCityHandler = () => {

@@ -6,6 +6,9 @@ import WeatherIcon from '../WeatherIcon';
 import Options from '../Options';
 import CityWeatherHeader from '../CityWeatherHeader';
 import { createCityUrl } from '../../../common/utils';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../common/types';
+import { getTempHourly } from '../../../common/api';
 
 interface CityWeatherCardProps {
   weatherCardData: WeatherCard;
@@ -16,6 +19,7 @@ const CityWeatherCardWrapper = styled(Paper)(
 );
 
 const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const {
@@ -24,9 +28,11 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
     main: { temp },
   } = weatherCardData;
 
-  const cityUrl = createCityUrl(city.name, city.lon, city.lat);
+  const cityUrl = createCityUrl(city.name, city.lat, city.lon);
 
   const goToCityWeatherPage = () => {
+    dispatch(getTempHourly(city));
+
     navigate(cityUrl);
   };
 
