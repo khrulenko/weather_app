@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { Stack, Paper, styled, Typography } from '@mui/material';
 import { WeatherCard } from '../../../redux/slices/weatherSlice';
 import { createCityWeatherCardWrapperStyles } from './styles';

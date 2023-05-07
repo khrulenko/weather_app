@@ -19,6 +19,11 @@ export interface WeatherCard {
   ];
   main: {
     temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    humidity: number;
+    pressure: number;
   };
   wind: {
     speed: number;
@@ -31,14 +36,14 @@ const extractWeatherData = (apiWeatherData: WeatherCard): WeatherCard => {
   const {
     city,
     weather,
-    main: { temp },
+    main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
     wind: { speed },
   } = apiWeatherData;
 
   return {
     city,
     weather,
-    main: { temp },
+    main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
     wind: { speed },
   };
 };

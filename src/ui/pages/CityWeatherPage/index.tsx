@@ -1,16 +1,30 @@
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { styled, Stack, Divider, Paper, Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { createPageCanvasStyles } from './styles';
-import { useNavigate } from 'react-router';
+import WindPowerIcon from '@mui/icons-material/WindPower';
+import WaterIcon from '@mui/icons-material/Water';
+import CompressIcon from '@mui/icons-material/Compress';
+import DryIcon from '@mui/icons-material/Dry';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import {
+  createDetailsListWrapperStyles,
+  createPageCanvasStyles,
+} from './styles';
 import { URL_WEATHER } from '../../../routing/URLs';
 import { getWeather } from '../../../redux/slices/weatherSlice';
 import Options from '../../components/Options';
 import CityWeatherHeader from '../../components/CityWeatherHeader';
 import NoCityFoundPage from '../NoCityFoundPage';
+import WeatherIcon from '../../components/WeatherIcon';
+import { kelvinToCelsius } from '../../../common/utils';
+import WeatherDetailCard, {
+  WeatherDetails,
+} from '../../components/WeatherDetailCard';
 
 const PageCanvas = styled(Paper)(createPageCanvasStyles);
+const DetailsListWrapper = styled(Stack)(createDetailsListWrapperStyles);
 
 const CityWeatherPage = () => {
   const { weatherCards } = useSelector(getWeather);
@@ -31,8 +45,42 @@ const CityWeatherPage = () => {
   const {
     city,
     weather: [{ description, icon }],
-    main: { temp },
+    main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
+    wind: { speed },
   } = weatherData;
+
+  const weatherDetailsData: WeatherDetails[] = [
+    {
+      header: 'Temp feels like',
+      value: `${kelvinToCelsius(feels_like)}°С`,
+      icon: <DryIcon />,
+    },
+    {
+      header: 'Temp min',
+      value: `${kelvinToCelsius(temp_min)}°С`,
+      icon: <TrendingDownIcon />,
+    },
+    {
+      header: 'Temp max',
+      value: `${kelvinToCelsius(temp_max)}°С`,
+      icon: <TrendingUpIcon />,
+    },
+    {
+      header: 'Wind speed',
+      value: `${speed} m/s`,
+      icon: <WindPowerIcon />,
+    },
+    {
+      header: 'Humidity',
+      value: `${humidity} %`,
+      icon: <WaterIcon />,
+    },
+    {
+      header: 'Pressure',
+      value: `${pressure} hPa`,
+      icon: <CompressIcon />,
+    },
+  ];
 
   const goToCityWeatherPage = () => navigate(URL_WEATHER);
 
@@ -57,6 +105,18 @@ const CityWeatherPage = () => {
           variant="h4"
         />
       </Stack>
+
+      <WeatherDetailCard
+        header="Main weather"
+        value={description}
+        icon={<WeatherIcon iconId={icon} />}
+      />
+
+      <DetailsListWrapper>
+        {weatherDetailsData.map(({ header, value, icon }) => (
+          <WeatherDetailCard header={header} value={value} icon={icon} />
+        ))}
+      </DetailsListWrapper>
     </PageCanvas>
   );
 };

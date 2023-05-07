@@ -7,8 +7,12 @@ const createPageCanvasStyles: StyleFunction<PaperProps> = ({
     breakpoints: { down },
   },
 }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing(2),
+
   width: '100%',
-  maxWidth: '1200px',
+  maxWidth: '1000px',
   padding: spacing(4),
 
   borderRadius: spacing(6),
@@ -30,4 +34,29 @@ const createHeaderWrapperStyles: StyleFunction<PaperProps> = ({
   height: spacing(7),
 });
 
-export { createPageCanvasStyles, createHeaderWrapperStyles };
+const createDetailsListWrapperStyles: StyleFunction<PaperProps> = ({
+  theme: {
+    spacing,
+    breakpoints: { down },
+  },
+}) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  gap: spacing(2),
+  flexWrap: 'wrap',
+
+  [down('md')]: {
+    justifyContent: 'center',
+  },
+
+  [down('sm')]: {
+    flexDirection: 'column',
+  },
+});
+
+export {
+  createPageCanvasStyles,
+  createHeaderWrapperStyles,
+  createDetailsListWrapperStyles,
+};
