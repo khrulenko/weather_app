@@ -44,6 +44,18 @@ const extractWeatherData = (apiWeatherData: WeatherCard): WeatherCard => {
 const findCardIndex = (cardList: WeatherCard[], lat: number, lon: number) =>
   cardList.findIndex(({ city }) => city.lat === lat && city.lon === lon);
 
+const getTemperatureColor = (temp: number): string => {
+  if (temp < 0) return 'powderblue';
+  if (temp < 5) return 'lightcyan';
+  if (temp < 10) return 'paleturquoise';
+  if (temp < 15) return 'palegreen';
+  if (temp < 20) return 'lightgreen';
+  if (temp < 25) return 'lemonchiffon';
+  if (temp < 30) return 'moccasin';
+
+  return 'mistyrose';
+};
+
 export {
   createSelector,
   handleChange,
@@ -52,4 +64,5 @@ export {
   createCityUrl,
   extractWeatherData,
   findCardIndex,
+  getTemperatureColor,
 };
