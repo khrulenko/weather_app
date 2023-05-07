@@ -1,21 +1,11 @@
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { Stack, Paper, styled, Typography } from '@mui/material';
-import DeviceThermostatOutlinedIcon from '@mui/icons-material/DeviceThermostatOutlined';
-import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
-import {
-  deleteWeatherCard,
-  WeatherCard,
-} from '../../../redux/slices/weatherSlice';
-import {
-  createCardHeaderStyles,
-  createCityWeatherCardWrapperStyles,
-} from './styles';
-import { kelvinToCelsius } from '../../../common/utils';
+import { WeatherCard } from '../../../redux/slices/weatherSlice';
+import { createCityWeatherCardWrapperStyles } from './styles';
 import WeatherIcon from '../WeatherIcon';
-import TooltipButton from '../TooltipButton';
-import { AppDispatch } from '../../../common/types';
-import { refreshWeatherByCoordsThunk } from '../../../common/api';
+import Options from '../Options';
+import CityWeatherHeader from '../CityWeatherHeader';
+import { createCityUrl } from '../../../common/utils';
 
 interface CityWeatherCardProps {
   weatherCardData: WeatherCard;
@@ -24,10 +14,9 @@ interface CityWeatherCardProps {
 const CityWeatherCardWrapper = styled(Paper)(
   createCityWeatherCardWrapperStyles
 );
-const CardHeader = styled(Stack)(createCardHeaderStyles);
 
 const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const {
     city,
@@ -35,31 +24,15 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
     main: { temp },
   } = weatherCardData;
 
-  const onDeleteWeatherCard = () => {
-    dispatch(deleteWeatherCard({ lon: city.lon, lat: city.lat }));
-  };
+  const cityUrl = createCityUrl(city.name, city.lon, city.lat);
 
-  const onRefreshWeatherCard = () => {
-    dispatch(refreshWeatherByCoordsThunk(city));
+  const goToCityWeatherPage = () => {
+    navigate(cityUrl);
   };
 
   return (
-    <CityWeatherCardWrapper>
-      <CardHeader>
-        <Stack justifyContent="center">
-          <Typography fontSize="24px" fontWeight="bold">
-            {city.name}
-          </Typography>
-
-          {city?.state && <Typography fontSize="14px">{city.state}</Typography>}
-        </Stack>
-
-        <Stack direction="row" alignItems="center">
-          <Typography fontSize="24px">{kelvinToCelsius(temp)}°С</Typography>
-
-          <DeviceThermostatOutlinedIcon />
-        </Stack>
-      </CardHeader>
+    <CityWeatherCardWrapper onClick={goToCityWeatherPage}>
+      <CityWeatherHeader name={city.name} state={city?.state} temp={temp} />
 
       <Stack direction="row" justifyContent="space-between">
         <Stack direction="row" alignItems="center" gap="8px">
@@ -68,19 +41,7 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
           <Typography>{description}</Typography>
         </Stack>
 
-        <Stack direction="row" justifyContent="flex-end">
-          <TooltipButton
-            title="Refresh"
-            hasAnimation
-            onClick={onRefreshWeatherCard}
-          >
-            <SyncOutlinedIcon />
-          </TooltipButton>
-
-          <TooltipButton title="Delete" onClick={onDeleteWeatherCard}>
-            <HighlightOffOutlinedIcon />
-          </TooltipButton>
-        </Stack>
+        <Options city={city} />
       </Stack>
     </CityWeatherCardWrapper>
   );

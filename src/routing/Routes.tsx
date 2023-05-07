@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../ui/layouts/MainLayout';
 import CityWeatherPage from '../ui/pages/CityWeatherPage';
-import WeatherTablePage from '../ui/pages/WeaterTablePage';
+import WeatherTablePage from '../ui/pages/WeatherTablePage';
 import { URL_WEATHER, URL_WEATHER_CITY } from './URLs';
 
 const AppRoutes = () => {

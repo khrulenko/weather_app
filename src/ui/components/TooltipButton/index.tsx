@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import {
   Button,
   ButtonProps,
@@ -30,7 +30,9 @@ const TooltipButton = ({
 }: TooltipButtonProps) => {
   const [isRotating, setIsRotating] = useState<boolean>(false);
 
-  const handleClick = () => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+
     if (hasAnimation) {
       setIsRotating(true);
       setTimeout(() => setIsRotating(false), 500);
@@ -52,4 +54,5 @@ const TooltipButton = ({
     </TooltipButtonWrapper>
   );
 };
+
 export default TooltipButton;

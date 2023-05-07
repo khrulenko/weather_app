@@ -30,9 +30,9 @@ const fetchWeatherByCoords = async (city: CityData) => {
       throw new Error();
     }
 
-    const weaterData = await weatherResponse.json();
+    const weatherData = await weatherResponse.json();
 
-    return { ...weaterData, city };
+    return { ...weatherData, city };
   } catch {
     throw new Error();
   }

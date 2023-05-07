@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { Store } from '../redux/store';
+import { URL_WEATHER } from '../routing/URLs';
 import { AnyFunction } from './types';
 
 const createSelector =
@@ -18,4 +19,13 @@ const kelvinToCelsius = (kelvin: number): number => Math.round(kelvin - 273.15);
 const numbersToString = (num1: number, num2: number) =>
   num1.toString() + num2.toString();
 
-export { createSelector, handleChange, kelvinToCelsius, numbersToString };
+const createCityUrl = (name: string, lon: number, lat: number) =>
+  `${URL_WEATHER}/${name}?lon=${lon}&lat=${lat}`;
+
+export {
+  createSelector,
+  handleChange,
+  kelvinToCelsius,
+  numbersToString,
+  createCityUrl,
+};
