@@ -29,6 +29,7 @@ const extractWeatherData = (apiWeatherData: WeatherCard): WeatherCard => {
     weather,
     main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
     wind: { speed },
+    hourlyTemp,
   } = apiWeatherData;
 
   return {
@@ -36,6 +37,7 @@ const extractWeatherData = (apiWeatherData: WeatherCard): WeatherCard => {
     weather,
     main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
     wind: { speed },
+    hourlyTemp: hourlyTemp.slice(0, 24),
   };
 };
 

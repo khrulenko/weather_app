@@ -31,13 +31,22 @@ const fetchWeatherByCoords = async (city: CityData) => {
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHERMAP_API_KEY}`
     );
 
-    if (!weatherResponse.ok) {
+    const tempResponse = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m`
+    );
+
+    if (!tempResponse.ok || !weatherResponse.ok) {
       throw new Error();
     }
 
+    const hourlyTemp = await tempResponse.json();
     const weatherData = await weatherResponse.json();
 
-    return { ...weatherData, city };
+    return {
+      city,
+      ...weatherData,
+      hourlyTemp: hourlyTemp.hourly.temperature_2m,
+    };
   } catch {
     throw new Error();
   }
@@ -53,32 +62,8 @@ const refreshWeatherByCoordsThunk = createAsyncThunk(
   fetchWeatherByCoords
 );
 
-const getTempHourly = createAsyncThunk(
-  'weater/getTempHourly',
-  async (city: CityData) => {
-    const { lat, lon } = city;
-
-    try {
-      const tempResponse = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m`
-      );
-
-      if (!tempResponse.ok) {
-        throw new Error();
-      }
-
-      const hourlyTemp = await tempResponse.json();
-
-      return { hourlyTemp, city };
-    } catch {
-      throw new Error();
-    }
-  }
-);
-
 export {
   fetchCitiesByName,
   getWeatherByCoordsThunk,
   refreshWeatherByCoordsThunk,
-  getTempHourly,
 };

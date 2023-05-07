@@ -22,6 +22,7 @@ import { kelvinToCelsius } from '../../../common/utils';
 import WeatherDetailCard, {
   WeatherDetails,
 } from '../../components/WeatherDetailCard';
+import TemperatureChart from '../../components/TemperatureChart';
 
 const PageCanvas = styled(Paper)(createPageCanvasStyles);
 const DetailsListWrapper = styled(Stack)(createDetailsListWrapperStyles);
@@ -47,6 +48,7 @@ const CityWeatherPage = () => {
     weather: [{ description, icon }],
     main: { temp, feels_like, temp_min, temp_max, humidity, pressure },
     wind: { speed },
+    hourlyTemp,
   } = weatherData;
 
   const weatherDetailsData: WeatherDetails[] = [
@@ -122,6 +124,8 @@ const CityWeatherPage = () => {
           />
         ))}
       </DetailsListWrapper>
+
+      <TemperatureChart values={hourlyTemp} />
     </PageCanvas>
   );
 };

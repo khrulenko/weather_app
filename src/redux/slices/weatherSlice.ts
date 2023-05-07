@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  getTempHourly,
   getWeatherByCoordsThunk,
   refreshWeatherByCoordsThunk,
 } from '../../common/api';
@@ -11,10 +10,6 @@ import {
   findCardIndex,
 } from '../../common/utils';
 import { CityData } from './citiesSearchSlice';
-
-interface HourlyTemp {
-  hourly: { temperature_2m: number[] };
-}
 
 export interface WeatherCard {
   city: CityData;
@@ -37,7 +32,7 @@ export interface WeatherCard {
   wind: {
     speed: number;
   };
-  hourlyTemp?: number[];
+  hourlyTemp: number[];
 }
 
 export type Weather = { weatherCards: WeatherCard[]; error: boolean };
@@ -84,30 +79,6 @@ const weatherSlice = createSlice({
         }
       )
       .addCase(refreshWeatherByCoordsThunk.rejected, (state: Weather) => {
-        state.error = true;
-      })
-      .addCase(
-        getTempHourly.fulfilled,
-        (
-          state: Weather,
-          action: PayloadAction<{
-            city: CityData;
-            hourlyTemp: HourlyTemp;
-          }>
-        ) => {
-          const {
-            city: { lat, lon },
-            hourlyTemp: { hourly },
-          } = action.payload;
-
-          const hourlyTemp = hourly.temperature_2m.slice(0, 24);
-
-          const cardIndex = findCardIndex(state.weatherCards, lat, lon);
-
-          state.weatherCards[cardIndex].hourlyTemp = hourlyTemp;
-        }
-      )
-      .addCase(getTempHourly.rejected, (state: Weather) => {
         state.error = true;
       });
   },
