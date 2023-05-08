@@ -5,8 +5,9 @@ import { BrowserRouter } from 'react-router-dom';
 import WeatherTablePage from '.';
 import { oneWeatherCardMock } from '../../../common/mocks';
 import { renderWithRedux } from '../../../common/testUtils';
+import { State } from '../../../redux/store';
 
-const errorState = {
+const errorState: State = {
   citiesSearch: {
     searchResults: [],
     error: false,
@@ -17,7 +18,7 @@ const errorState = {
   },
 };
 
-const emptyState = {
+const emptyState: State = {
   citiesSearch: {
     searchResults: [],
     error: false,
@@ -28,7 +29,7 @@ const emptyState = {
   },
 };
 
-const stateWithOneCity = {
+const stateWithOneCity: State = {
   citiesSearch: {
     searchResults: [],
     error: false,

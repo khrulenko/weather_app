@@ -1,12 +1,12 @@
 import { ChangeEvent } from 'react';
 import { WeatherCard } from '../redux/slices/weatherSlice';
-import { Store } from '../redux/store';
+import { State } from '../redux/store';
 import { URL_WEATHER } from '../routing/URLs';
 import { AnyFunction } from './types';
 
 const createSelector =
-  <K extends keyof Store>(dataField: K) =>
-  (state: Store) =>
+  <K extends keyof State>(dataField: K) =>
+  (state: State) =>
     state[dataField];
 
 const handleChange =

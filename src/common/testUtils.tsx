@@ -1,13 +1,13 @@
 import { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
-import { combineReducers } from 'redux';
+import { combineReducers, Store as ReduxStore } from 'redux';
 import { legacy_createStore as createStore } from 'redux';
 import { render, RenderOptions } from '@testing-library/react';
-import { reducers } from '../redux/store';
+import { reducers, State } from '../redux/store';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  initialState?: any;
-  store?: any;
+  initialState?: State;
+  store?: ReduxStore;
 }
 
 const rootReducer = combineReducers(reducers);
@@ -15,7 +15,7 @@ const rootReducer = combineReducers(reducers);
 const renderWithRedux = (
   component: React.ReactElement,
   {
-    initialState = {},
+    initialState,
     store = createStore(rootReducer, initialState),
     ...renderOptions
   }: ExtendedRenderOptions = {}

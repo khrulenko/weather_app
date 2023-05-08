@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import citiesSearchReducer, { Cities } from '../slices/citiesSearchSlice';
 import weatherReducer, { Weather } from '../slices/weatherSlice';
 
-export interface Store {
+export interface State {
   citiesSearch: Cities;
   weather: Weather;
 }
