@@ -16,3 +16,5 @@ Used technologies:
   - toolkit
   - thunk
 - Material UI
+- Jest
+- React Testing Library
