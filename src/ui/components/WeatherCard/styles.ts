@@ -2,7 +2,7 @@ import { PaperProps } from '@mui/material';
 import { StyleFunction } from '../../../common/types';
 
 const createCityWeatherCardWrapperStyles: StyleFunction<PaperProps> = ({
-  theme: { spacing },
+  theme: { spacing, palette },
 }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -15,6 +15,11 @@ const createCityWeatherCardWrapperStyles: StyleFunction<PaperProps> = ({
 
   borderRadius: spacing(3),
   cursor: 'pointer',
+
+  '&:hover': {
+    backgroundColor: palette.secondary.dark,
+    color: palette.primary.light,
+  },
 });
 
 export { createCityWeatherCardWrapperStyles };
