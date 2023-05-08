@@ -36,9 +36,17 @@ export interface WeatherCard {
   hourlyTemp: number[];
 }
 
-export type Weather = { weatherCards: WeatherCard[]; error: boolean };
+export type Weather = {
+  weatherCards: WeatherCard[];
+  error: boolean;
+  isAppLoading: boolean;
+};
 
-const initialState: Weather = { weatherCards: [], error: false };
+const initialState: Weather = {
+  weatherCards: [],
+  error: false,
+  isAppLoading: true,
+};
 
 const weatherSlice = createSlice({
   name: 'weather',
@@ -50,6 +58,9 @@ const weatherSlice = createSlice({
       state.weatherCards = state.weatherCards.filter(
         ({ city }) => city.lat !== lat || city.lon !== lon
       );
+    },
+    setAppLoadingStatus(state: Weather, action: PayloadAction<boolean>) {
+      state.isAppLoading = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -87,5 +98,5 @@ const weatherSlice = createSlice({
 });
 
 export const getWeather = createSelector('weather');
-export const { deleteWeatherCard } = weatherSlice.actions;
+export const { deleteWeatherCard, setAppLoadingStatus } = weatherSlice.actions;
 export default weatherSlice.reducer;

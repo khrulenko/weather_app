@@ -22,6 +22,7 @@ const errorState: State = {
   weather: {
     weatherCards: [],
     error: false,
+    isAppLoading: false,
   },
 };
 
@@ -33,6 +34,7 @@ const stateWithCitiesAndSearch: State = {
   weather: {
     weatherCards: weatherCardsMock,
     error: false,
+    isAppLoading: false,
   },
 };
 

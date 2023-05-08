@@ -15,6 +15,7 @@ const errorState: State = {
   weather: {
     weatherCards: [],
     error: true,
+    isAppLoading: false,
   },
 };
 
@@ -26,6 +27,7 @@ const emptyState: State = {
   weather: {
     weatherCards: [],
     error: false,
+    isAppLoading: false,
   },
 };
 
@@ -37,6 +39,7 @@ const stateWithOneCity: State = {
   weather: {
     weatherCards: oneWeatherCardMock,
     error: false,
+    isAppLoading: false,
   },
 };
 

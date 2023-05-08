@@ -6,17 +6,22 @@ import { createWeatherTableWrapperStyles } from './styles';
 import { numbersToString } from '../../../common/utils';
 import ErrorPage from '../ErrorPage';
 import EmptyListAlertPage from '../EmptyListAlertPage';
+import Loader from '../../components/Loader';
 
 const WeatherTableWrapper = styled(Stack)(createWeatherTableWrapperStyles);
 
 const WeatherTablePage = () => {
-  const { weatherCards, error } = useSelector(getWeather);
+  const { weatherCards, isAppLoading, error } = useSelector(getWeather);
+
+  if (isAppLoading) {
+    return <Loader />;
+  }
 
   if (error) {
     return <ErrorPage />;
   }
 
-  if (!weatherCards.length) {
+  if (!weatherCards.length && !isAppLoading) {
     return <EmptyListAlertPage />;
   }
 
