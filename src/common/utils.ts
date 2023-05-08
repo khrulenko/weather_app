@@ -56,6 +56,13 @@ const getTemperatureColor = (temp: number): string => {
   return 'mistyrose';
 };
 
+const immutablySortWeatherCards = (
+  weatherCards: WeatherCard[]
+): WeatherCard[] =>
+  [...weatherCards].sort((a, b) =>
+    a.city.name.toLowerCase().localeCompare(b.city.name.toLowerCase())
+  );
+
 export {
   createSelector,
   handleChange,
@@ -65,4 +72,5 @@ export {
   extractWeatherData,
   findCardIndex,
   getTemperatureColor,
+  immutablySortWeatherCards,
 };

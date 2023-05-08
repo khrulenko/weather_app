@@ -8,6 +8,7 @@ import {
   createSelector,
   extractWeatherData,
   findCardIndex,
+  immutablySortWeatherCards,
 } from '../../common/utils';
 import { CityData } from './citiesSearchSlice';
 
@@ -59,6 +60,7 @@ const weatherSlice = createSlice({
           const data = extractWeatherData(action.payload);
 
           state.weatherCards.push(data);
+          state.weatherCards = immutablySortWeatherCards(state.weatherCards);
         }
       )
       .addCase(getWeatherByCoordsThunk.rejected, (state: Weather) => {
