@@ -1,5 +1,45 @@
 import { WeatherCard } from '../redux/slices/weatherSlice';
 
+export const searchResultMock = [
+  {
+    name: 'Kyiv',
+    lat: 50.4500336,
+    lon: 30.5241361,
+    country: 'UA',
+  },
+];
+
+export const fetchedWeatherMock = {
+  weather: [
+    {
+      id: 804,
+      main: 'Clouds',
+      description: 'overcast clouds',
+      icon: '04d',
+    },
+  ],
+  main: {
+    temp: 287.23,
+    feels_like: 285.63,
+    temp_min: 286.08,
+    temp_max: 287.23,
+    humidity: 36,
+    pressure: 1026,
+  },
+  wind: {
+    speed: 1.34,
+  },
+};
+
+export const fetchedTempMock = {
+  hourly: {
+    temperature_2m: [
+      7.6, 7.2, 6.9, 7, 7, 7.6, 8.7, 9.7, 11, 12.3, 13.1, 13.2, 13.4, 13.4,
+      13.1, 12.6, 12.1, 11.4, 10.5, 9.7, 9.2, 8.6, 7.9, 7.2,
+    ],
+  },
+};
+
 export const weatherCardsMock: WeatherCard[] = [
   {
     city: {

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
-import { Provider } from 'react-redux';
 import { combineReducers, Store as ReduxStore } from 'redux';
-import { legacy_createStore as createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { render, RenderOptions } from '@testing-library/react';
 import { reducers, State } from '../redux/store';
 
@@ -16,7 +16,11 @@ const renderWithRedux = (
   component: React.ReactElement,
   {
     initialState,
-    store = createStore(rootReducer, initialState),
+    store = configureStore({
+      reducer: rootReducer,
+      preloadedState: initialState,
+    }),
+
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) => {

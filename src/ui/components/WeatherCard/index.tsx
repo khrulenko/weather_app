@@ -6,7 +6,6 @@ import WeatherIcon from '../WeatherIcon';
 import Options from '../Options';
 import CityWeatherHeader from '../CityWeatherHeader';
 import { createCityUrl } from '../../../common/utils';
-import { AppDispatch } from '../../../common/types';
 
 interface CityWeatherCardProps {
   weatherCardData: WeatherCard;
@@ -32,7 +31,10 @@ const CityWeatherCard = ({ weatherCardData }: CityWeatherCardProps) => {
   };
 
   return (
-    <CityWeatherCardWrapper onClick={goToCityWeatherPage}>
+    <CityWeatherCardWrapper
+      data-testid="weatherCard"
+      onClick={goToCityWeatherPage}
+    >
       <CityWeatherHeader name={city.name} state={city?.state} temp={temp} />
 
       <Stack direction="row" justifyContent="space-between">
