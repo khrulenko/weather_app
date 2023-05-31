@@ -1,6 +1,6 @@
-# Khrulenko Vitalii's Codica test task
+# Khrulenko Vitalii's Weather app
 
-[LINK TO APP PREVIEW](https://khrulenko.github.io/codica_weather/)
+[LINK TO APP PREVIEW](https://khrulenko.github.io/weather_app/)
 
 Used technologies:
 
